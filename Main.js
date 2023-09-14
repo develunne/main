@@ -610,7 +610,7 @@ function setValue(ref, value) {
 function setValueDinamic(objectDDL) {
     //Para funciones obsoletas
     if (objectDDL.ref == undefined) {
-        objectDDl.ref = objectDDL.Ref;
+        objectDDL.ref = objectDDL.Ref;
     }
     //Fin para funciones obsoletas
     ref = getReference(objectDDL.ref);
