@@ -169,6 +169,15 @@ function fillYear(Ref, Start, End, DefaultOptions) {
     }
     DefaultOptions == true ? $("#" + Ref).append('<option value="All">Todo</option>') : "";
 }
+//Fill ddlMes
+function fillMonth(Ref) {
+    var months = ['SELECCIONE UNA OPCIÓN', 'ENERO', 'FEBRERO', 'MARZO', 'ABRIL',
+        'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE',
+        'NOVIEMBRE', 'DICIEMBRE'];
+    for (let i = 0; i < months.length; i++) {
+        $("#" + Ref).append('<option value="' + i + '">' + months[i] + '</option>');
+    }
+}
 //Hide Preloader
 $(window).on('load', function () {
     $("#preloader").delay(950).fadeOut();
