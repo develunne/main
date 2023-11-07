@@ -162,7 +162,9 @@ function tableSelection(tableRef, rowRef) {
 function fillYear(Ref, Start, End, DefaultOptions) {
     var today = new Date();
     var EndYear = End == undefined ? today.getFullYear() : End;
-    $("#" + Ref).html("");
+    if (EndYear < Start) {
+        EndYear = Start;
+    }
     DefaultOptions == true ? $("#" + Ref).append('<option value="6m">6 meses</option> ') : "";
     for (var i = Start; i < EndYear + 1; i++) {
         $("#" + Ref).append('<option value="' + i + '">' + i + '</option>');
