@@ -1,4 +1,4 @@
-﻿//Object that stores the data needed by "operationAjax" function
+//Object that stores the data needed by "operationAjax" function
 function dataConfig(objectAjax, directory, buttonAction, nameOperation, type) {
     this.objectAjax = objectAjax;
     this.directory = directory;
@@ -160,16 +160,21 @@ function tableSelection(tableRef, rowRef) {
 }
 //Fill ddlAño
 function fillYear(Ref, Start, End, DefaultOptions) {
+    Ref = getReference(Ref);
     var today = new Date();
     var EndYear = End == undefined ? today.getFullYear() : End;
     if (EndYear < Start) {
         EndYear = Start;
     }
-    DefaultOptions == true ? $("#" + Ref).append('<option value="6m">6 meses</option> ') : "";
+    if (DefaultOptions) {
+        if ($("option[value='6m']", Ref).length == 0) {
+            $(Ref).append('<option value="6m">6 meses</option> ')
+        }
+    } 
     for (var i = Start; i < EndYear + 1; i++) {
-        $("#" + Ref).append('<option value="' + i + '">' + i + '</option>');
+        $(Ref).append('<option value="' + i + '">' + i + '</option>');
     }
-    DefaultOptions == true ? $("#" + Ref).append('<option value="All">Todo</option>') : "";
+    DefaultOptions == true ? $(Ref).append('<option value="All">Todo</option>') : "";
 }
 //Fill ddlMes
 function fillMonth(Ref) {
@@ -191,7 +196,7 @@ function scrollToRef(ref, speed) {
         speed = 1200;
     }
     $('html,body').animate({
-        scrollTop: ref.offset().top
+        scrollTop: ref.offset().top - 40
     }, speed);
 }
 //Hide Tooltip
@@ -239,10 +244,27 @@ function alertMessage(ref, text, typeAlert, fadeout) {
 function message(text, title, typeMessage) {
     //Hide Modals
     $(".modal").modal("hide");
+    //Alert class
+    let alertClass = "";
+    if (typeMessage == undefined || typeMessage == "") {
+        alertClass = "alert-danger";
+    }
+    else {
+        alertClass = "alert-" + typeMessage;
+    }
     //Clean classes
     $("#modalTitle").removeClass("text-danger").removeClass("text-warning").removeClass("text-success");
     //Add properties
-    $("#divMessage").html(text)
+    let contentHtml = `<div class="row vertical-align justify-content-center">
+                        <div class="col-md-12 col-sm-12 text-justify">
+                            <div class="alert ${alertClass} pt-2 mb-1" role="alert">
+                                <label>
+                                    ${text}
+                                </label>
+                            </div>
+                        </div>
+                    </div>`;
+    $("#divMessage").html(contentHtml)
     if (title == undefined || title.trim() == "") {
         if (typeMessage == "" | typeMessage == undefined | typeMessage == "danger" | typeMessage == "warning") {
             $("#divMessageTitle").html("¡Ups! Algo no ha ido bien.");
@@ -253,28 +275,64 @@ function message(text, title, typeMessage) {
     }
     else {
         $("#divMessageTitle").html(title.trim())
-    };
-    if (typeMessage == undefined || typeMessage == "") {
-        $("#modalTitle").addClass("text-danger");
     }
-    else {
+
+    //Show modal
+    $("#mdMessage").modal("show");
+}
+
+//Message SweetAlert
+function messageSweet(text, title, typeMessage, confirmButton) {
+    //Hide Modals
+    $(".modal").modal("hide");
+    let Title = title;
+    let TypeMessage = typeMessage;
+    let Timer = 1800;
+    if (confirmButton == undefined) {
+        confirmButton = true;
+        Timer = null;
+    }
+    if (title == undefined || title.trim() == "") {
+        if (typeMessage == "" | typeMessage == undefined | typeMessage == "danger" | typeMessage == "warning") {
+            Title = "¡Ups! Algo no ha ido bien.";
+        }
+        else if (typeMessage == "success") {
+            Title = "¡Se ha completado con éxito!";
+        }
+    } else {
+
+    }
+    if (typeMessage == undefined || typeMessage == "") {
+        TypeMessage = "text-danger";
+    } else {
         switch (typeMessage.trim()) {
             case "danger":
-                $("#modalTitle").addClass("text-danger");
+                TypeMessage = "error";
                 break;
             case "warning":
-                $("#modalTitle").addClass("text-warning");
+                TypeMessage = "warning";
                 break;
             case "success":
-                $("#modalTitle").addClass("text-success");
+                TypeMessage = "success";
+                break;
+            case "info":
+                TypeMessage = "info";
+                break;
+            case "question":
+                TypeMessage = "question";
                 break;
             default:
-                $("#modalTitle").addClass("text-danger");
+                TypeMessage = "error";
                 break;
         }
     }
-    //Show modal
-    $("#mdMessage").modal("show");
+    Swal.fire({
+        title: Title,
+        text: text,
+        icon: TypeMessage,
+        showConfirmButton: confirmButton,
+        timer: Timer
+    });
 }
 
 //Response (Ajax)
