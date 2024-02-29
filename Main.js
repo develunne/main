@@ -170,7 +170,7 @@ function fillYear(Ref, Start, End, DefaultOptions) {
         if ($("option[value='6m']", Ref).length == 0) {
             $(Ref).append('<option value="6m">6 meses</option> ')
         }
-    } 
+    }
     for (var i = Start; i < EndYear + 1; i++) {
         $(Ref).append('<option value="' + i + '">' + i + '</option>');
     }
@@ -460,7 +460,7 @@ function operationAjax(dtc) { //objectAjax, directory, buttonAction,type
                     } else {
                         resultAjax_Complete(responseComp, dtc)
                     }
-                }
+                } 
             }
         }
     });
