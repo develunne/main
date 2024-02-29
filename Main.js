@@ -446,6 +446,13 @@ function operationAjax(dtc) { //objectAjax, directory, buttonAction,type
                 $("#mdMessageSession").modal("show");
             }
             else {
+                if (dtc.buttonAction != undefined) {
+                    //If the HTML content changes in the "success" event, the HTML content is not modified again
+                    if ((dtc.buttonAction).html() == textButtonAction) {
+                        (dtc.buttonAction).html(htmlButtonAction);
+                    }
+                    (dtc.buttonAction).prop("disabled", false);
+                }
                 //To catch controller errors
                 if (responseComp != undefined) {
                     if (responseComp.response == "Unknown") {
@@ -453,13 +460,6 @@ function operationAjax(dtc) { //objectAjax, directory, buttonAction,type
                     } else {
                         resultAjax_Complete(responseComp, dtc)
                     }
-                }
-                if (dtc.buttonAction != undefined) {
-                    //If the HTML content changes in the "success" event, the HTML content is not modified again
-                    if ((dtc.buttonAction).html() == textButtonAction) {
-                        (dtc.buttonAction).html(htmlButtonAction);
-                    }
-                    (dtc.buttonAction).prop("disabled", false);
                 }
             }
         }
@@ -520,6 +520,13 @@ function uploadFileAjax(dtc) {//objectAjax, directory, buttonAction, type) {
                 $("#mdMessageSession").modal("show");
             }
             else {
+                if (dtc.buttonAction != undefined) {
+                    //If the HTML content changes in the "success" event, the HTML content is not modified again
+                    if ((dtc.buttonAction).html() == textButtonAction) {
+                        (dtc.buttonAction).html(htmlButtonAction);
+                    }
+                    (dtc.buttonAction).prop("disabled", false);
+                }
                 //To catch controller errors
                 if (responseComp != undefined) {
                     if (responseComp.response == "Unknown") {
@@ -527,13 +534,6 @@ function uploadFileAjax(dtc) {//objectAjax, directory, buttonAction, type) {
                     } else {
                         resultAjax_Complete(responseComp, dtc)
                     }
-                }
-                if (dtc.buttonAction != undefined) {
-                    //If the HTML content changes in the "success" event, the HTML content is not modified again
-                    if ((dtc.buttonAction).html() == textButtonAction) {
-                        (dtc.buttonAction).html(htmlButtonAction);
-                    }
-                    (dtc.buttonAction).prop("disabled", false);
                 }
             }
         }
